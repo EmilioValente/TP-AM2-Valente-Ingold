@@ -14,18 +14,11 @@ public class QuestCreatorWindow : EditorWindow {
     int CharacterMinLvl;
     characterclass clase;
 
-
     public enum characterclass
     {
         paladin,
         warrior,
         wizard
-    }
-
-    [MenuItem("Custom Windows/Quest Creator Window")]
-    static void createWindow()
-    {
-        ((QuestCreatorWindow)GetWindow(typeof(QuestCreatorWindow))).Show();
     }
 
     void OnGUI()
