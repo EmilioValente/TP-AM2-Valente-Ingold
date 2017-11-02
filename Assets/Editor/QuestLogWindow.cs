@@ -7,10 +7,9 @@ public class QuestLogWindow : EditorWindow {
 
     string _questName;
     string _questDescription;
+    int _goldReward;
+    int ExpReward;
     GameObject _itenReward;
-    string RewardName;
-    int RewardId;
-    Dictionary<string, int> reward;
 
     void OnGUI()
     {
@@ -20,26 +19,16 @@ public class QuestLogWindow : EditorWindow {
         _questName = EditorGUILayout.TextField("Quest Name", _questName);
 
         
-            EditorGUILayout.BeginVertical();
+        EditorGUILayout.BeginVertical();
         GUILayout.Label("Description", EditorStyles.boldLabel);
         _questDescription = EditorGUILayout.TextField("", _questDescription,GUILayout.Height(100));
         GUILayout.Label("recompenza", EditorStyles.boldLabel);
+        EditorGUILayout.IntField("gold",_goldReward);
+        EditorGUILayout.IntField("Exp", _goldReward);
+        //EditorGUILayout.ObjectField(null, _itenReward);
         EditorGUILayout.EndVertical();
-        RewardName = EditorGUILayout.TextField("Reward", RewardName);
-        RewardId = EditorGUILayout.IntField("Reward Id", RewardId);
-        if (GUILayout.Button("guardar"))
-        reward.Add(RewardName, RewardId);
 
-        foreach (var item in reward)
-        {
-            EditorGUILayout.BeginHorizontal();
 
-            //GUILayout.Label(, EditorStyles.label);
-            EditorGUILayout.EndHorizontal();
-
-        }
-        
-        
 
     }
 	
