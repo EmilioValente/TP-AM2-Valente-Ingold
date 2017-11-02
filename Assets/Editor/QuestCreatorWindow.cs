@@ -10,17 +10,9 @@ public class QuestCreatorWindow : EditorWindow {
 
     int _questIDInt;
     string _questID;
-    int CharacterMaxLvl;
-    int CharacterMinLvl;
-    characterclass clase;
-
-
-    public enum characterclass
-    {
-        paladin,
-        warrior,
-        wizard
-    }
+    int CharacterMaxLvl=1;
+    int CharacterMinLvl=1;
+    string clase;
 
     [MenuItem("Custom Windows/Quest Creator Window")]
     static void createWindow()
@@ -33,7 +25,7 @@ public class QuestCreatorWindow : EditorWindow {
         GUILayout.Label("Quest creator window", EditorStyles.boldLabel);
         EditorGUILayout.Space();
 
-        clase = (characterclass)EditorGUILayout.EnumPopup("clase", clase); // pregunto la clase que puede llevar a cabo la quest
+        clase = EditorGUILayout.TextField("clase",clase); // pregunto la clase que puede llevar a cabo la quest
         CharacterMinLvl = EditorGUILayout.IntField("nivel minimo para la quest", CharacterMinLvl); //pido nivel minimo para la mision
         if (CharacterMinLvl < 1)
         {
