@@ -19,7 +19,7 @@ public class QuestLogWindow : EditorWindow {
         _questName = EditorGUILayout.TextField("Quest Name", _questName);
 
         
-            EditorGUILayout.BeginVertical();
+        EditorGUILayout.BeginVertical();
         GUILayout.Label("Description", EditorStyles.boldLabel);
         _questDescription = EditorGUILayout.TextField("", _questDescription,GUILayout.Height(100));
         GUILayout.Label("recompenza", EditorStyles.boldLabel);

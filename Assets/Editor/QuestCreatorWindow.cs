@@ -5,6 +5,8 @@ using UnityEditor;
 
 public class QuestCreatorWindow : EditorWindow {
 
+    public ScriptableObject currentQuest;
+
     //diccionario que contiene todas las quests creadas. (el int es temporal hay q reemplazarlo x una clase que contenga las opciones de las quests o algo)
     Dictionary<string, int> _allQuests = new Dictionary<string, int>();
 
@@ -23,6 +25,7 @@ public class QuestCreatorWindow : EditorWindow {
 
     void OnGUI()
     {
+        currentQuest = (ScriptableObject)EditorGUILayout.ObjectField(currentQuest, typeof(ScriptableObject), false);
         GUILayout.Label("Quest creator window", EditorStyles.boldLabel);
         EditorGUILayout.Space();
 
