@@ -12,22 +12,10 @@ public class QuestCreatorWindow : EditorWindow {
 
     int _questIDInt;
     string _questID;
-<<<<<<< HEAD
+
     int CharacterMaxLvl=1;
     int CharacterMinLvl=1;
     string clase;
-=======
-    int CharacterMaxLvl;
-    int CharacterMinLvl;
-    characterclass clase;
-
-    public enum characterclass
-    {
-        paladin,
-        warrior,
-        wizard
-    }
->>>>>>> 7e484b095f044f1353dc7bc502f37c1b17be48bc
 
     void OnGUI()
     {
