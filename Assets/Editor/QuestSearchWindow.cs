@@ -4,51 +4,70 @@ using UnityEngine;
 using UnityEditor;
 
 public class QuestSearchWindow : EditorWindow {
-    
-    string _searchAssetByName;
-    List<Object> _assets = new List<Object>();
 
+    ScriptableObject _focusQuest;
+
+    string _searchAssetByName;
+    List<ScriptableObject> _quests = new List<ScriptableObject>();
+    
     [MenuItem("Custom Windows/Quest Creator Window")]
     static void createWindow()
     {
-        ((QuestSearchWindow)GetWindow(typeof(QuestSearchWindow))).Show();
+        GetWindow<QuestSearchWindow>().Show();
     }
 
     void OnGUI()
     {
+        EditorGUILayout.LabelField("Quest search Window", EditorStyles.boldLabel);
 
-        PrefabSearcher();
-        if (GUILayout.Button("Search"))
+        EditorGUILayout.HelpBox("Drag and drop the quest", MessageType.None);
+        _focusQuest = (ScriptableObject)EditorGUILayout.ObjectField("Quest to search", _focusQuest, typeof(ScriptableObject), false);
+
+        EditorGUILayout.HelpBox("Search the quest by ID", MessageType.None);
+        QuestSearcher();
+
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Search", GUILayout.Height(30), GUILayout.Width(200)))
         {
-
-            //((QuestCreatorWindow)GetWindow(typeof(QuestCreatorWindow))).Show();
+            if(_focusQuest != null)
+            {
+                GetWindow<QuestCreatorWindow>().currentQuest = _focusQuest;
+                GetWindow<QuestCreatorWindow>().Show();
+            }
         }
+
+        if(GUILayout.Button("Create empty quest", GUILayout.Height(30), GUILayout.Width(200)))
+        {
+            _focusQuest = ScriptableObjectCreator.CreateSO<QuestLayout>();
+            GetWindow<QuestCreatorWindow>().currentQuest = _focusQuest;
+            GetWindow<QuestCreatorWindow>().Show();
+        }
+        EditorGUILayout.EndHorizontal();
     }
 
-    private void PrefabSearcher()
+    private void QuestSearcher()
     {
-        EditorGUILayout.LabelField("Quest Searcher", EditorStyles.boldLabel);
         var aux = _searchAssetByName;
         _searchAssetByName = EditorGUILayout.TextField("Quest ID", aux);
         string[] folderToSearch = { "Assets/Quests" };
         int i;
         if (aux != _searchAssetByName)
         {
-            _assets.Clear();
+            _quests.Clear();
             string[] allPaths = AssetDatabase.FindAssets(_searchAssetByName, folderToSearch);
             for (i = allPaths.Length - 1; i >= 0; i--)
             {
                 allPaths[i] = AssetDatabase.GUIDToAssetPath(allPaths[i]); 
-                _assets.Add(AssetDatabase.LoadAssetAtPath(allPaths[i], typeof(Object))); 
+                _quests.Add((ScriptableObject)AssetDatabase.LoadAssetAtPath(allPaths[i], typeof(ScriptableObject))); 
             }
         }
-        for (i = _assets.Count - 1; i >= 0; i--)
+        for (i = _quests.Count - 1; i >= 0; i--)
         {
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(_assets[i].ToString());
+            EditorGUILayout.LabelField(_quests[i].ToString());
             if (GUILayout.Button("Select"))
             {
-
+                _focusQuest = _quests[i];
             }
             EditorGUILayout.EndHorizontal();
         }
