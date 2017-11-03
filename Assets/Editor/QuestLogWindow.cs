@@ -29,9 +29,12 @@ public class QuestLogWindow : EditorWindow
         RewardName = EditorGUILayout.TextField("Reward", RewardName);
         RewardId = EditorGUILayout.IntField("Reward Id", RewardId);
         if (GUILayout.Button("guardar"))
+        {
             if(!reward.ContainsKey(RewardName))
             reward.Add(RewardName, RewardId);
-
+        }
+        
+        /*
         EditorGUILayout.BeginVertical();
         foreach (var item in reward)
         {
@@ -41,6 +44,7 @@ public class QuestLogWindow : EditorWindow
 
         }
         EditorGUILayout.EndVertical();
+        */
 
 
 

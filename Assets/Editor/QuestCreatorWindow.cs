@@ -5,47 +5,43 @@ using UnityEditor;
 
 public class QuestCreatorWindow : EditorWindow {
 
-    public ScriptableObject currentQuest;
-
-    //diccionario que contiene todas las quests creadas. (el int es temporal hay q reemplazarlo x una clase que contenga las opciones de las quests o algo)
-    Dictionary<string, int> _allQuests = new Dictionary<string, int>();
-
-    int _questIDInt;
-    string _questID;
-
-    int CharacterMaxLvl=1;
-    int CharacterMinLvl=1;
-    string clase;
+    public QuestLayout currentQuest;
 
     void OnGUI()
     {
-        currentQuest = (ScriptableObject)EditorGUILayout.ObjectField(currentQuest, typeof(ScriptableObject), false);
+        //currentQuest = (QuestLayout)EditorGUILayout.ObjectField(currentQuest, typeof(QuestLayout), false);
         GUILayout.Label("Quest creator window", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField(currentQuest.name);
         EditorGUILayout.Space();
 
-        clase = EditorGUILayout.TextField("clase",clase); // pregunto la clase que puede llevar a cabo la quest
-        CharacterMinLvl = EditorGUILayout.IntField("nivel minimo para la quest", CharacterMinLvl); //pido nivel minimo para la mision
-        if (CharacterMinLvl < 1)
+        currentQuest.clase = EditorGUILayout.TextField("clase",currentQuest.clase); // pregunto la clase que puede llevar a cabo la quest
+
+        currentQuest.minLevel = EditorGUILayout.IntField("nivel minimo para la quest", currentQuest.minLevel); //pido nivel minimo para la mision
+        if (currentQuest.minLevel <= 1)
         {
+            currentQuest.minLevel = 1;
             EditorGUILayout.HelpBox("el nivel no puede ser menor a 1", MessageType.Info);
         }
-        CharacterMaxLvl = EditorGUILayout.IntField("nivel maximo para la quest", CharacterMaxLvl);//pido nivel maximo para la mision
-        if (CharacterMaxLvl > 100)
+        else if (currentQuest.minLevel >= currentQuest.maxLevel)
         {
+            currentQuest.minLevel = currentQuest.maxLevel;
+        }
+
+        currentQuest.maxLevel = EditorGUILayout.IntField("nivel maximo para la quest", currentQuest.maxLevel);//pido nivel maximo para la mision
+        if (currentQuest.maxLevel >= 100)
+        {
+            currentQuest.maxLevel = 100;
             EditorGUILayout.HelpBox("el nivel no puede pasarse de 100", MessageType.Info);
         }
 
-        if(CharacterMaxLvl-CharacterMinLvl>25)
+        if (currentQuest.maxLevel - currentQuest.minLevel > 25)
         {
             EditorGUILayout.HelpBox("no se recomienda que el rango sea muy extenso", MessageType.None);
         }
 
-        //var aa = _allQuests.Keys;
-
         //_questIDInt = EditorGUILayout.Popup("Quests", _questIDInt, ()_allQuests.Keys)
 
-        _questID = EditorGUILayout.TextField("Quest ID", _questID);
-
+        //_questID = EditorGUILayout.TextField("Quest ID", _questID);
         
         //Creo un boton que me abre una ventana nueva donde se puede editar el quest log
         if(GUILayout.Button("Quest Log"))

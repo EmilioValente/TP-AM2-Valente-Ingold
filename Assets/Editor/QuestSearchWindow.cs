@@ -31,15 +31,15 @@ public class QuestSearchWindow : EditorWindow {
         {
             if(_focusQuest != null)
             {
-                GetWindow<QuestCreatorWindow>().currentQuest = _focusQuest;
+                GetWindow<QuestCreatorWindow>().currentQuest = (QuestLayout)_focusQuest;
                 GetWindow<QuestCreatorWindow>().Show();
             }
         }
-
+        
         if(GUILayout.Button("Create empty quest", GUILayout.Height(30), GUILayout.Width(200)))
         {
             _focusQuest = ScriptableObjectCreator.CreateSO<QuestLayout>();
-            GetWindow<QuestCreatorWindow>().currentQuest = _focusQuest;
+            GetWindow<QuestCreatorWindow>().currentQuest = (QuestLayout)_focusQuest;
             GetWindow<QuestCreatorWindow>().Show();
         }
         EditorGUILayout.EndHorizontal();
