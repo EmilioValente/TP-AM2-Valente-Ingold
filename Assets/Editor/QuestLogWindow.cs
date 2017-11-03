@@ -20,6 +20,7 @@ public class QuestLogWindow : EditorWindow
 
         _questName = EditorGUILayout.TextField("Quest Name", _questName);
 
+        reward = new Dictionary<string, int>();
 
         EditorGUILayout.BeginVertical();
         GUILayout.Label("Description", EditorStyles.boldLabel);
@@ -29,20 +30,37 @@ public class QuestLogWindow : EditorWindow
         RewardName = EditorGUILayout.TextField("Reward", RewardName);
         RewardId = EditorGUILayout.IntField("Reward Id", RewardId);
         if (GUILayout.Button("guardar"))
-            if(!reward.ContainsKey(RewardName))
-            reward.Add(RewardName, RewardId);
+        {
+            if (!reward.ContainsKey(RewardName))
+            {
+                reward.Add(RewardName, RewardId);
+                Debug.Log("guarde");
+            }
+        }
 
         EditorGUILayout.BeginVertical();
-        foreach (var item in reward)
+        GUILayout.Label("Rewards saved", EditorStyles.boldLabel);
+        if (reward.Count > 0)
         {
-            EditorGUILayout.BeginHorizontal();
+            foreach (var item in reward)
 
-            EditorGUILayout.EndHorizontal();
+            {
+                GUILayout.Label("Rewards saved", EditorStyles.boldLabel);
+
+                EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 50), item.Key);
+                if (GUILayout.Button("cargar"))
+                {
+                    RewardName = item.Key;
+                    RewardId = item.Value;
+                }
+
+
+
+            }
 
         }
+
         EditorGUILayout.EndVertical();
-
-
 
     }
 
