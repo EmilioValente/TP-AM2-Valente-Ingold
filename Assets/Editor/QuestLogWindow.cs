@@ -31,6 +31,7 @@ public class QuestLogWindow : EditorWindow
         RewardId = EditorGUILayout.IntField("Reward Id", RewardId);
         if (GUILayout.Button("guardar"))
         {
+
             if (!reward.ContainsKey(RewardName))
             {
                 reward.Add(RewardName, RewardId);
@@ -38,6 +39,9 @@ public class QuestLogWindow : EditorWindow
             }
         }
 
+
+        if (!reward.ContainsKey(RewardName))
+            reward.Add(RewardName, RewardId);
         EditorGUILayout.BeginVertical();
         GUILayout.Label("Rewards saved", EditorStyles.boldLabel);
         if (reward.Count > 0)
@@ -54,14 +58,12 @@ public class QuestLogWindow : EditorWindow
                     RewardId = item.Value;
                 }
 
-
-
             }
-
+            EditorGUILayout.EndVertical();
         }
-
-        EditorGUILayout.EndVertical();
 
     }
 
 }
+
+    
