@@ -49,12 +49,15 @@ public class QuestLogWindow : EditorWindow
         }
 
         GUILayout.Label("Rewards saved", EditorStyles.boldLabel);
+        EditorGUILayout.BeginHorizontal();
         for (int i = 0; i < RewardName.Length; i++)
         {
 
+            //var RewardsName = RewardName[i];
+
+            //EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 50), RewardsName);
 
         }
-        EditorGUILayout.BeginHorizontal();
 
         EditorGUILayout.EndHorizontal();
 
