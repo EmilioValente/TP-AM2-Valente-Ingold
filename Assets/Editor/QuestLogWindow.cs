@@ -10,8 +10,12 @@ public class QuestLogWindow : EditorWindow
     string _questDescription;
     GameObject _itenReward;
     string RewardName;
-    int RewardId;
-    Dictionary<string, int> reward;
+    int RewardId=0;
+    float RewardAmaunt=0; 
+    List<string> NameRewardList = new List<string>();
+    List<int> IdRewardList = new List<int>();
+    List<float> AmauntRewardList = new List<float>();
+
 
     void OnGUI()
     {
@@ -20,8 +24,6 @@ public class QuestLogWindow : EditorWindow
 
         _questName = EditorGUILayout.TextField("Quest Name", _questName);
 
-        reward = new Dictionary<string, int>();
-
         EditorGUILayout.BeginVertical();
         GUILayout.Label("Description", EditorStyles.boldLabel);
         _questDescription = EditorGUILayout.TextField("", _questDescription, GUILayout.Height(100));
@@ -29,38 +31,32 @@ public class QuestLogWindow : EditorWindow
         EditorGUILayout.EndVertical();
         RewardName = EditorGUILayout.TextField("Reward", RewardName);
         RewardId = EditorGUILayout.IntField("Reward Id", RewardId);
+        RewardAmaunt = EditorGUILayout.FloatField("Amaunt", RewardAmaunt);
         if (GUILayout.Button("guardar"))
         {
 
-            if (!reward.ContainsKey(RewardName))
+            if (RewardName != null)
             {
-                reward.Add(RewardName, RewardId);
-                Debug.Log("guarde");
-            }
-        }
-
-
-        if (!reward.ContainsKey(RewardName))
-            reward.Add(RewardName, RewardId);
-        EditorGUILayout.BeginVertical();
-        GUILayout.Label("Rewards saved", EditorStyles.boldLabel);
-        if (reward.Count > 0)
-        {
-            foreach (var item in reward)
-
-            {
-                GUILayout.Label("Rewards saved", EditorStyles.boldLabel);
-
-                EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 50), item.Key);
-                if (GUILayout.Button("cargar"))
+                if (!NameRewardList.Contains(RewardName))
                 {
-                    RewardName = item.Key;
-                    RewardId = item.Value;
+                    NameRewardList.Add(RewardName);
+                    IdRewardList.Add(RewardId);
+                    AmauntRewardList.Add(RewardAmaunt);
+                    Debug.Log("guarde");
                 }
-
             }
-            EditorGUILayout.EndVertical();
+
         }
+
+        GUILayout.Label("Rewards saved", EditorStyles.boldLabel);
+        for (int i = 0; i < RewardName.Length; i++)
+        {
+
+
+        }
+        EditorGUILayout.BeginHorizontal();
+
+        EditorGUILayout.EndHorizontal();
 
     }
 
