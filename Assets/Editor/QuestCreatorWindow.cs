@@ -9,9 +9,8 @@ public class QuestCreatorWindow : EditorWindow {
 
     void OnGUI()
     {
-        //currentQuest = (QuestLayout)EditorGUILayout.ObjectField(currentQuest, typeof(QuestLayout), false);
         GUILayout.Label("Quest creator window", EditorStyles.boldLabel);
-        EditorGUILayout.LabelField(currentQuest.name);
+        EditorGUILayout.LabelField("Currently working on: " + currentQuest.name);
         EditorGUILayout.Space();
 
         currentQuest.clase = EditorGUILayout.TextField("clase",currentQuest.clase); // pregunto la clase que puede llevar a cabo la quest
@@ -38,15 +37,12 @@ public class QuestCreatorWindow : EditorWindow {
         {
             EditorGUILayout.HelpBox("no se recomienda que el rango sea muy extenso", MessageType.None);
         }
-
-        //_questIDInt = EditorGUILayout.Popup("Quests", _questIDInt, ()_allQuests.Keys)
-
-        //_questID = EditorGUILayout.TextField("Quest ID", _questID);
         
         //Creo un boton que me abre una ventana nueva donde se puede editar el quest log
         if(GUILayout.Button("Quest Log"))
         {
-            ((QuestLogWindow)GetWindow(typeof(QuestLogWindow))).Show();
+            GetWindow<QuestLogWindow>().currentQuest = currentQuest;
+            GetWindow<QuestLogWindow>().Show();
         }
 
         EditorGUILayout.BeginHorizontal("Button");

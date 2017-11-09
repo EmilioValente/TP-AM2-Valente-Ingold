@@ -13,11 +13,12 @@ public class QuestLayout : ScriptableObject {
     #endregion
     
     #region QuestLog Variables
-    public string questName;
-    public string questDescription;
-    public Dictionary<string, int> rewards;
-    public string rewardName;
-    public int rewardID;
+    public string Name;
+    public string description;
+
+    public List<string> NameRewardList = new List<string>();
+    public List<int> IdRewardList = new List<int>();
+    public List<float> AmountRewardList = new List<float>();
     #endregion
 
 }
