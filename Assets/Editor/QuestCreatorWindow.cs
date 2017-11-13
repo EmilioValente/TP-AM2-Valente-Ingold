@@ -10,9 +10,8 @@ public class QuestCreatorWindow : EditorWindow {
 
     void OnGUI()
     {
-        //currentQuest = (QuestLayout)EditorGUILayout.ObjectField(currentQuest, typeof(QuestLayout), false);
         GUILayout.Label("Quest creator window", EditorStyles.boldLabel);
-        EditorGUILayout.LabelField(currentQuest.name);
+        EditorGUILayout.LabelField("Currently working on: " + currentQuest.name);
         EditorGUILayout.Space();
 
         currentQuest.EnemiesAmount = new List<int>();
@@ -42,12 +41,20 @@ public class QuestCreatorWindow : EditorWindow {
         {
             EditorGUILayout.HelpBox("no se recomienda que el rango sea muy extenso", MessageType.None);
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> cff8eb273b055d07b283b2205397b1ba8e54bee6
         //Creo un boton que me abre una ventana nueva donde se puede editar el quest log
         if (GUILayout.Button("Quest Log"))
         {
             GetWindow<QuestLogWindow>().currentQuest = currentQuest;
+<<<<<<< HEAD
             ((QuestLogWindow)GetWindow(typeof(QuestLogWindow))).Show();
+=======
+            GetWindow<QuestLogWindow>().Show();
+>>>>>>> cff8eb273b055d07b283b2205397b1ba8e54bee6
         }
         GUILayout.Label("NPC", EditorStyles.boldLabel);
         currentQuest.IdNPCQuestDealer = EditorGUILayout.IntField("Quest Dealer", currentQuest.IdNPCQuestDealer);
