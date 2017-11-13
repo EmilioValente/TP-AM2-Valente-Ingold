@@ -46,10 +46,7 @@ public class QuestCreatorWindow : EditorWindow {
         if (GUILayout.Button("Quest Log"))
         {
             GetWindow<QuestLogWindow>().currentQuest = currentQuest;
-
             ((QuestLogWindow)GetWindow(typeof(QuestLogWindow))).Show();
-
-
         }
         GUILayout.Label("NPC", EditorStyles.boldLabel);
         currentQuest.IdNPCQuestDealer = EditorGUILayout.IntField("Quest Dealer", currentQuest.IdNPCQuestDealer);
