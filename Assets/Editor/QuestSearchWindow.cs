@@ -9,7 +9,7 @@ public class QuestSearchWindow : EditorWindow {
 
     string _searchAssetByName;
     List<ScriptableObject> _quests = new List<ScriptableObject>();
-    
+    Vector2 scrollBar;
     [MenuItem("Custom Windows/Quest Creator Window")]
     static void createWindow()
     {
@@ -27,7 +27,7 @@ public class QuestSearchWindow : EditorWindow {
         QuestSearcher();
 
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Search", GUILayout.Height(30), GUILayout.Width(200)))
+        if (GUILayout.Button("Open selected quest", GUILayout.Height(30), GUILayout.Width(200)))
         {
             if(_focusQuest != null)
             {
@@ -45,6 +45,7 @@ public class QuestSearchWindow : EditorWindow {
         EditorGUILayout.EndHorizontal();
     }
 
+
     private void QuestSearcher()
     {
         var aux = _searchAssetByName;
@@ -61,6 +62,7 @@ public class QuestSearchWindow : EditorWindow {
                 _quests.Add((ScriptableObject)AssetDatabase.LoadAssetAtPath(allPaths[i], typeof(ScriptableObject))); 
             }
         }
+        scrollBar = EditorGUILayout.BeginScrollView(scrollBar, false, true);
         for (i = _quests.Count - 1; i >= 0; i--)
         {
             EditorGUILayout.BeginHorizontal();
@@ -71,5 +73,6 @@ public class QuestSearchWindow : EditorWindow {
             }
             EditorGUILayout.EndHorizontal();
         }
+        EditorGUILayout.EndScrollView();
     }
 }

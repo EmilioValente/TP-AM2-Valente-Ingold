@@ -5,64 +5,75 @@ using UnityEditor;
 
 public class QuestLogWindow : EditorWindow
 {
+    public QuestLayout currentQuest;
 
-    string _questName;
-    string _questDescription;
-    GameObject _itenReward;
     string RewardName;
     int RewardId=0;
-    float RewardAmaunt=0; 
-    List<string> NameRewardList = new List<string>();
-    List<int> IdRewardList = new List<int>();
-    List<float> AmauntRewardList = new List<float>();
-
+    float RewardAmount=0;
+    bool warningMessage = false;
 
     void OnGUI()
     {
         GUILayout.Label("Quest log window", EditorStyles.boldLabel);
         EditorGUILayout.Space();
 
-        _questName = EditorGUILayout.TextField("Quest Name", _questName);
+        currentQuest.Name = EditorGUILayout.TextField("Quest Name", currentQuest.Name);
+        
+        GUILayout.Label("Description");
+        currentQuest.description = EditorGUILayout.TextField("", currentQuest.description, GUILayout.Height(100));
 
-        EditorGUILayout.BeginVertical();
-        GUILayout.Label("Description", EditorStyles.boldLabel);
-        _questDescription = EditorGUILayout.TextField("", _questDescription, GUILayout.Height(100));
-        GUILayout.Label("recompenza", EditorStyles.boldLabel);
-        EditorGUILayout.EndVertical();
-        RewardName = EditorGUILayout.TextField("Reward", RewardName);
+        GUILayout.Label("Rewards", EditorStyles.boldLabel);                
+        RewardName = EditorGUILayout.TextField("Reward Name", RewardName);
         RewardId = EditorGUILayout.IntField("Reward Id", RewardId);
-        RewardAmaunt = EditorGUILayout.FloatField("Amaunt", RewardAmaunt);
-        if (GUILayout.Button("guardar"))
-        {
+        RewardAmount = EditorGUILayout.FloatField("Amount", RewardAmount);
 
-            if (RewardName != null)
+        //guardo los parametros de arriba en las listas
+        if (GUILayout.Button("Save rewards"))
+        {
+            if (RewardName != null && RewardName.Length > 0)
             {
-                if (!NameRewardList.Contains(RewardName))
+                if (!currentQuest.NameRewardList.Contains(RewardName))
                 {
-                    NameRewardList.Add(RewardName);
-                    IdRewardList.Add(RewardId);
-                    AmauntRewardList.Add(RewardAmaunt);
+                    currentQuest.NameRewardList.Add(RewardName);
+                    currentQuest.IdRewardList.Add(RewardId);
+                    currentQuest.AmountRewardList.Add(RewardAmount);
+                    warningMessage = false;
                     Debug.Log("guarde");
+                }else
+                {
+                    var questIndex = currentQuest.NameRewardList.IndexOf(RewardName);
+                    currentQuest.IdRewardList[questIndex] = RewardId;
+                    currentQuest.AmountRewardList[questIndex] = RewardAmount;
+                    Debug.Log("modifique");
                 }
+            }else
+            {
+                warningMessage = true;
             }
-
         }
-
-        GUILayout.Label("Rewards saved", EditorStyles.boldLabel);
-        EditorGUILayout.BeginHorizontal();
-        for (int i = 0; i < RewardName.Length; i++)
+        //Si no ingrso un nombre y apreta guardar le doy un mensaje de error
+        if (warningMessage)
         {
-
-            //var RewardsName = RewardName[i];
-
-            //EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 50), RewardsName);
-
+            EditorGUILayout.HelpBox("Insert reward name", MessageType.Error);
         }
 
-        EditorGUILayout.EndHorizontal();
+        //Mostramos las listas
+        GUILayout.Label("Rewards saved:");
+        if(currentQuest.NameRewardList.Count == 0)
+        {
+            EditorGUILayout.HelpBox("No rewards saved", MessageType.None);
+        }
+        for (int i = 0; i < currentQuest.NameRewardList.Count; i++)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), currentQuest.NameRewardList[i]);
+            
+            EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "ID: " + currentQuest.IdRewardList[i].ToString());
+            
+            EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "Amount: " + currentQuest.AmountRewardList[i].ToString());
+            EditorGUILayout.EndHorizontal();
+        }
 
     }
 
-}
-
-    
+}    

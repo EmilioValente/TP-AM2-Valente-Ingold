@@ -6,6 +6,7 @@ using UnityEditor;
 public class QuestCreatorWindow : EditorWindow {
 
     public QuestLayout currentQuest;
+   
 
     void OnGUI()
     {
@@ -13,6 +14,9 @@ public class QuestCreatorWindow : EditorWindow {
         GUILayout.Label("Quest creator window", EditorStyles.boldLabel);
         EditorGUILayout.LabelField(currentQuest.name);
         EditorGUILayout.Space();
+
+        currentQuest.EnemiesAmount = new List<int>();
+        currentQuest.EnemiesType = new List<string>();
 
         currentQuest.clase = EditorGUILayout.TextField("clase",currentQuest.clase); // pregunto la clase que puede llevar a cabo la quest
 
@@ -39,18 +43,17 @@ public class QuestCreatorWindow : EditorWindow {
             EditorGUILayout.HelpBox("no se recomienda que el rango sea muy extenso", MessageType.None);
         }
 
-        //_questIDInt = EditorGUILayout.Popup("Quests", _questIDInt, ()_allQuests.Keys)
-
-        //_questID = EditorGUILayout.TextField("Quest ID", _questID);
-        
         //Creo un boton que me abre una ventana nueva donde se puede editar el quest log
-        if(GUILayout.Button("Quest Log"))
+        if (GUILayout.Button("Quest Log"))
         {
+            GetWindow<QuestLogWindow>().currentQuest = currentQuest;
             ((QuestLogWindow)GetWindow(typeof(QuestLogWindow))).Show();
         }
+        GUILayout.Label("NPC", EditorStyles.boldLabel);
+        currentQuest.IdNPCQuestDealer = EditorGUILayout.IntField("Quest Dealer", currentQuest.IdNPCQuestDealer);
 
-        EditorGUILayout.BeginHorizontal("Button");
-        GUILayout.Label("create");
-        EditorGUILayout.EndHorizontal();
+        GUILayout.Label("Enemies", EditorStyles.boldLabel);
+        //currentQuest.EnemiesType = EditorGUILayout.TextField("enemieID",currentQuest.EnemiesType);
+
     }
 }
