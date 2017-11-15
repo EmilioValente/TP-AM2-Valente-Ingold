@@ -6,7 +6,11 @@ using UnityEditor;
 public class QuestCreatorWindow : EditorWindow {
 
     public QuestLayout currentQuest;
-   
+    int EnemiesAmaount;
+    string EnemiesType = "";
+    bool warningMessageType= false;
+    bool warningMessageAmaount = false;
+
 
     void OnGUI()
     {
@@ -52,7 +56,71 @@ public class QuestCreatorWindow : EditorWindow {
         currentQuest.IdNPCQuestDealer = EditorGUILayout.IntField("Quest Dealer", currentQuest.IdNPCQuestDealer);
 
         GUILayout.Label("Enemies", EditorStyles.boldLabel);
-        //currentQuest.EnemiesType = EditorGUILayout.TextField("enemieID",currentQuest.EnemiesType);
+        EnemiesType = EditorGUILayout.TextField("Enemie Type",EnemiesType);
+        EnemiesAmaount = EditorGUILayout.IntField("Enemies amaunt", EnemiesAmaount);
+        if (GUILayout.Button("add enemies"))
+        {
+            Debug.Log("addenemies");
+            if ( EnemiesAmaount > 0 && EnemiesType!= null)
+            {
+                if (!currentQuest.EnemiesType.Contains(EnemiesType))
+                {
+                    currentQuest.EnemiesType.Add(EnemiesType);
+                    currentQuest.EnemiesAmount.Add(EnemiesAmaount);
+                    EnemiesType = null;
+                    EnemiesAmaount = 0;
+                    warningMessageType = false;
+                    warningMessageAmaount = false;
+                    Debug.Log("guarde");
+
+                }
+                else
+                {
+                    var enemiesIndex = currentQuest.EnemiesType.IndexOf(EnemiesType);
+                    currentQuest.AmountRewardList[enemiesIndex] = EnemiesAmaount;
+                    Debug.Log("cambie");
+                    warningMessageType = false;
+                    warningMessageAmaount = false;
+
+                }
+
+            }
+            else if(EnemiesType == null)
+            {
+                warningMessageType = true;
+                warningMessageAmaount = false;
+                Debug.Log("lala");
+            }
+            else if (EnemiesAmaount==0)
+            {
+                warningMessageAmaount = true;
+                warningMessageType = false;
+                Debug.Log("lala2");
+            }
+            else
+            {
+                warningMessageAmaount = true;
+                warningMessageType = true;
+                Debug.Log("lala3");
+            }
+            if(warningMessageAmaount)
+            {
+                EditorGUILayout.HelpBox("Insert a valid enemies amaount", MessageType.Error);
+            }
+            if (warningMessageType )
+            {
+                EditorGUILayout.HelpBox("Insert enemies type", MessageType.Error);
+            }
+            GUILayout.Label("Enemies saved");
+            for (int i = 0; i < currentQuest.EnemiesType.Count; i++)
+            {
+                EditorGUILayout.BeginHorizontal();
+                EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20),"type", currentQuest.EnemiesType[i]);
+
+                EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "Amount: " + currentQuest.EnemiesAmount[i].ToString());
+                EditorGUILayout.EndHorizontal();
+            }
+        }
 
     }
 }
