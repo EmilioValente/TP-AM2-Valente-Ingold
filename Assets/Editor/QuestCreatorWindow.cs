@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class QuestCreatorWindow : EditorWindow {
+public class QuestCreatorWindow : EditorWindow
+{
 
     public QuestLayout currentQuest;
     int EnemiesAmaount;
     string EnemiesType = "";
-    bool warningMessageType= false;
+    bool warningMessageType = false;
     bool warningMessageAmaount = false;
 
 
@@ -21,7 +22,7 @@ public class QuestCreatorWindow : EditorWindow {
         currentQuest.EnemiesAmount = new List<int>();
         currentQuest.EnemiesType = new List<string>();
 
-        currentQuest.clase = EditorGUILayout.TextField("clase",currentQuest.clase); // pregunto la clase que puede llevar a cabo la quest
+        currentQuest.clase = EditorGUILayout.TextField("clase", currentQuest.clase); // pregunto la clase que puede llevar a cabo la quest
 
         currentQuest.minLevel = EditorGUILayout.IntField("nivel minimo para la quest", currentQuest.minLevel); //pido nivel minimo para la mision
         if (currentQuest.minLevel <= 1)
@@ -56,18 +57,18 @@ public class QuestCreatorWindow : EditorWindow {
         currentQuest.IdNPCQuestDealer = EditorGUILayout.IntField("Quest Dealer", currentQuest.IdNPCQuestDealer);
 
         GUILayout.Label("Enemies", EditorStyles.boldLabel);
-        EnemiesType = EditorGUILayout.TextField("Enemie Type",EnemiesType);
+        EnemiesType = EditorGUILayout.TextField("Enemie Type", EnemiesType);
         EnemiesAmaount = EditorGUILayout.IntField("Enemies amaunt", EnemiesAmaount);
         if (GUILayout.Button("add enemies"))
         {
             Debug.Log("addenemies");
-            if ( EnemiesAmaount > 0 && EnemiesType!= null)
+            if (EnemiesAmaount > 0 && EnemiesType != "")
             {
                 if (!currentQuest.EnemiesType.Contains(EnemiesType))
                 {
                     currentQuest.EnemiesType.Add(EnemiesType);
                     currentQuest.EnemiesAmount.Add(EnemiesAmaount);
-                    EnemiesType = null;
+                    EnemiesType = "";
                     EnemiesAmaount = 0;
                     warningMessageType = false;
                     warningMessageAmaount = false;
@@ -85,29 +86,28 @@ public class QuestCreatorWindow : EditorWindow {
                 }
 
             }
-            else if(EnemiesType == null)
+            if (EnemiesType == null || EnemiesType == "")
             {
                 warningMessageType = true;
-                warningMessageAmaount = false;
                 Debug.Log("lala");
             }
-            else if (EnemiesAmaount==0)
+
+            if (EnemiesAmaount == 0)
             {
                 warningMessageAmaount = true;
-                warningMessageType = false;
-                Debug.Log("lala2");
+                Debug.Log("warning amaount" + warningMessageAmaount + " warning type" + warningMessageType + " enemiestype" + EnemiesType + "     enemie amaount" + EnemiesAmaount);
             }
-            else
+            if (EnemiesAmaount == 0 && EnemiesType == "")
             {
                 warningMessageAmaount = true;
                 warningMessageType = true;
                 Debug.Log("lala3");
             }
-            if(warningMessageAmaount)
+            if (warningMessageAmaount)
             {
                 EditorGUILayout.HelpBox("Insert a valid enemies amaount", MessageType.Error);
             }
-            if (warningMessageType )
+            if (warningMessageType)
             {
                 EditorGUILayout.HelpBox("Insert enemies type", MessageType.Error);
             }
@@ -115,7 +115,7 @@ public class QuestCreatorWindow : EditorWindow {
             for (int i = 0; i < currentQuest.EnemiesType.Count; i++)
             {
                 EditorGUILayout.BeginHorizontal();
-                EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20),"type", currentQuest.EnemiesType[i]);
+                EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "type", currentQuest.EnemiesType[i]);
 
                 EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "Amount: " + currentQuest.EnemiesAmount[i].ToString());
                 EditorGUILayout.EndHorizontal();
