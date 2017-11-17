@@ -10,8 +10,8 @@ public class QuestLayout : ScriptableObject {
     public int minLevel;
     public int maxLevel;
     public string clase;
-    public List<string> EnemiesType = new List<string>();
-    public List<int> EnemiesAmount = new List<int>();
+    public List<string> listEnemiesType = new List<string>();
+    public List<int> listEnemiesAmount = new List<int>();
     public int IdNPCQuestDealer;
     #endregion
 

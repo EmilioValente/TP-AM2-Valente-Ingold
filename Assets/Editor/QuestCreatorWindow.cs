@@ -19,9 +19,6 @@ public class QuestCreatorWindow : EditorWindow
         EditorGUILayout.LabelField("Currently working on: " + currentQuest.name);
         EditorGUILayout.Space();
 
-        currentQuest.EnemiesAmount = new List<int>();
-        currentQuest.EnemiesType = new List<string>();
-
         currentQuest.clase = EditorGUILayout.TextField("clase", currentQuest.clase); // pregunto la clase que puede llevar a cabo la quest
 
         currentQuest.minLevel = EditorGUILayout.IntField("nivel minimo para la quest", currentQuest.minLevel); //pido nivel minimo para la mision
@@ -62,24 +59,25 @@ public class QuestCreatorWindow : EditorWindow
         if (GUILayout.Button("add enemies"))
         {
 
-            if (EnemiesAmaount > 0 && EnemiesType != "")
+            if (EnemiesType != null && EnemiesType.Length>0)
             {
                 warningMessageType = false;
                 warningMessageAmaount = false;
-                if (!currentQuest.EnemiesType.Contains(EnemiesType))
+                if (!currentQuest.listEnemiesType.Contains(EnemiesType))
                 {
-                    currentQuest.EnemiesType.Add(EnemiesType);
-                    currentQuest.EnemiesAmount.Add(EnemiesAmaount);
+                    currentQuest.listEnemiesType.Add(EnemiesType);
+                    currentQuest.listEnemiesAmount.Add(EnemiesAmaount);
                     warningMessageType = false;
                     warningMessageAmaount = false;
+                    Debug.Log(currentQuest.listEnemiesAmount.Count);
                     Debug.Log("guarde");
 
 
                 }
                 else
                 {
-                    var enemiesIndex = currentQuest.EnemiesType.IndexOf(EnemiesType);
-                    currentQuest.AmountRewardList[enemiesIndex] = EnemiesAmaount;
+                    var enemiesIndex = currentQuest.listEnemiesType.IndexOf(EnemiesType);
+                    currentQuest.listEnemiesAmount[enemiesIndex] = EnemiesAmaount;
                     Debug.Log("cambie");
                     warningMessageType = false;
                     warningMessageAmaount = false;
@@ -112,11 +110,11 @@ public class QuestCreatorWindow : EditorWindow
             EditorGUILayout.HelpBox("Insert enemies type", MessageType.Error);
         }
         GUILayout.Label("Enemies saved");
-        for (int i = 0; i < currentQuest.EnemiesType.Count; i++)
+        for (int i = 0; i < currentQuest.listEnemiesType.Count; i++)
         {
             EditorGUILayout.BeginHorizontal();
-            EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "type", currentQuest.EnemiesType[i]);
-            EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "Amount: " + currentQuest.EnemiesAmount[i].ToString());
+            EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "type: " + currentQuest.listEnemiesType[i]);
+            EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "Amount: " + currentQuest.listEnemiesAmount[i].ToString());
             EditorGUILayout.EndHorizontal();
         }
 
