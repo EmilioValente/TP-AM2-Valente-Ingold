@@ -88,4 +88,16 @@ public class QuestSearchWindow : EditorWindow {
         }
         EditorGUILayout.EndScrollView();
     }
+
+    /*
+    public void temporal()
+    {
+        if(GetWindow<QuestCreatorWindow>().currentQuest.states.Count == 0)
+        {
+            lala temp = new lala();
+            GetWindow<QuestCreatorWindow>().currentQuest.states.Add(temp);
+        }
+        GetWindow<QuestCreatorWindow>().state = 0;
+    }*/
+
 }

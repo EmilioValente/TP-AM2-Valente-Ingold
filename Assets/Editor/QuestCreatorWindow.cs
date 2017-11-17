@@ -119,4 +119,26 @@ public class QuestCreatorWindow : EditorWindow
         }
 
     }
+    /*
+     
+
+        state = EditorGUILayout.IntField("stado", state);
+        if (GUILayout.Button("open state"))
+        {
+            if(state > currentQuest.states.Count-1)
+            {
+                lala temp = new lala();
+                currentQuest.states.Add(temp);
+                //currentQuest.states[state] = temp;
+            }
+            state2 = state;
+            temp = true;
+        }
+        if(temp){ 
+        GUILayout.Label("Quest creator window", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Currently working on: " + currentQuest.name);
+        EditorGUILayout.Space();
+        
+        currentQuest.states[state2].clase = EditorGUILayout.TextField("clase", currentQuest.states[state2].clase);}
+        */
 }
