@@ -67,9 +67,7 @@ public class QuestLogWindow : EditorWindow
         {
             EditorGUILayout.BeginHorizontal();
             EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), currentQuest.NameRewardList[i]);
-            
             EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "ID: " + currentQuest.IdRewardList[i].ToString());
-            
             EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "Amount: " + currentQuest.AmountRewardList[i].ToString());
             EditorGUILayout.EndHorizontal();
         }
