@@ -14,6 +14,7 @@ public class QuestLogWindow : EditorWindow
 
     void OnGUI()
     {
+        minSize = new Vector2(400, 450);
         GUILayout.Label("Quest log window", EditorStyles.boldLabel);
         EditorGUILayout.Space();
 

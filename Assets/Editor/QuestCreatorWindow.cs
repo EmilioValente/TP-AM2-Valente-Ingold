@@ -12,9 +12,22 @@ public class QuestCreatorWindow : EditorWindow
     bool warningMessageType = false;
     bool warningMessageAmaount = false;
 
+    /*
+     to do:
+     -una x para eliminar cosas de los array de rewards
+     -arreglar nombres de campos para q este todo en un mismo lenguaje y q entre en la label
+     -nombre de quest al crearlas(una campo q pida nombre en searcher) y q cambie cuando cambiamos el nombre
+     -clampear todos los campos para q no halla valores no posibles
+     -mensajes de error q no aparescan todo el tiempo si el valor no es el correcto (si no se puede, no poner mensaje xq son medio molestos)
+     -agregar el open cuando hago select a la primera quest(la primera q habro cuando recien abro la ventana)
+     -espacios
+     -
+     */
 
     void OnGUI()
     {
+        minSize = new Vector2(400, 450);
+
         GUILayout.Label("Quest creator window", EditorStyles.boldLabel);
         EditorGUILayout.LabelField("Currently working on: " + currentQuest.name);
         EditorGUILayout.Space();

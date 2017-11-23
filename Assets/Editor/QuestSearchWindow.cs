@@ -19,6 +19,8 @@ public class QuestSearchWindow : EditorWindow {
 
     void OnGUI()
     {
+        minSize = new Vector2(410,350);
+
         var aux = _focusQuest;
         EditorGUILayout.LabelField("Quest search Window", EditorStyles.boldLabel);
 
