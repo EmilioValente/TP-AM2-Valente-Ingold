@@ -19,9 +19,6 @@ public class QuestCreatorWindow : EditorWindow
      -nombre de quest al crearlas(una campo q pida nombre en searcher) y q cambie cuando cambiamos el nombre
      -clampear todos los campos para q no halla valores no posibles
      -mensajes de error q no aparescan todo el tiempo si el valor no es el correcto (si no se puede, no poner mensaje xq son medio molestos)
-     -agregar el open cuando hago select a la primera quest(la primera q habro cuando recien abro la ventana)
-     -espacios
-     -
      */
 
     void OnGUI()
@@ -63,15 +60,17 @@ public class QuestCreatorWindow : EditorWindow
             GetWindow<QuestLogWindow>().currentQuest = currentQuest;
             ((QuestLogWindow)GetWindow(typeof(QuestLogWindow))).Show();
         }
+
+        //npc
         GUILayout.Label("NPC", EditorStyles.boldLabel);
         currentQuest.IdNPCQuestDealer = EditorGUILayout.IntField("Quest Dealer", currentQuest.IdNPCQuestDealer);
 
+        //enemigos
         GUILayout.Label("Enemies", EditorStyles.boldLabel);
         EnemiesType = EditorGUILayout.TextField("Enemie Type", EnemiesType);
         EnemiesAmaount = EditorGUILayout.IntField("Enemies amaunt", EnemiesAmaount);
         if (GUILayout.Button("add enemies"))
         {
-
             if (EnemiesType != null && EnemiesType.Length>0)
             {
                 warningMessageType = false;
@@ -82,28 +81,19 @@ public class QuestCreatorWindow : EditorWindow
                     currentQuest.listEnemiesAmount.Add(EnemiesAmaount);
                     warningMessageType = false;
                     warningMessageAmaount = false;
-                    Debug.Log(currentQuest.listEnemiesAmount.Count);
-                    Debug.Log("guarde");
-
-
                 }
                 else
                 {
                     var enemiesIndex = currentQuest.listEnemiesType.IndexOf(EnemiesType);
                     currentQuest.listEnemiesAmount[enemiesIndex] = EnemiesAmaount;
-                    Debug.Log("cambie");
                     warningMessageType = false;
                     warningMessageAmaount = false;
-
                 }
-
             }
             if (EnemiesType == null || EnemiesType == "")
             {
                 warningMessageType = true;
-                Debug.Log("lala");
             }
-
             if (EnemiesAmaount == 0)
             {
                 warningMessageAmaount = true;
@@ -128,30 +118,14 @@ public class QuestCreatorWindow : EditorWindow
             EditorGUILayout.BeginHorizontal();
             EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "type: " + currentQuest.listEnemiesType[i]);
             EditorGUI.LabelField(GUILayoutUtility.GetRect(50, 20), "Amount: " + currentQuest.listEnemiesAmount[i].ToString());
+            //boton para eliminar elementos del array
+            if(GUILayout.Button("X", GUILayout.Width(20)))
+            {
+                currentQuest.listEnemiesType.RemoveAt(i);
+                currentQuest.listEnemiesAmount.RemoveAt(i);
+                Repaint();
+            }
             EditorGUILayout.EndHorizontal();
         }
-
     }
-    /*
-     
-
-        state = EditorGUILayout.IntField("stado", state);
-        if (GUILayout.Button("open state"))
-        {
-            if(state > currentQuest.states.Count-1)
-            {
-                lala temp = new lala();
-                currentQuest.states.Add(temp);
-                //currentQuest.states[state] = temp;
-            }
-            state2 = state;
-            temp = true;
-        }
-        if(temp){ 
-        GUILayout.Label("Quest creator window", EditorStyles.boldLabel);
-        EditorGUILayout.LabelField("Currently working on: " + currentQuest.name);
-        EditorGUILayout.Space();
-        
-        currentQuest.states[state2].clase = EditorGUILayout.TextField("clase", currentQuest.states[state2].clase);}
-        */
 }

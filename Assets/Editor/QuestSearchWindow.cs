@@ -35,6 +35,7 @@ public class QuestSearchWindow : EditorWindow {
             _focusQuest = ScriptableObjectCreator.CreateSO<QuestLayout>();
             GetWindow<QuestCreatorWindow>().currentQuest = (QuestLayout)_focusQuest;
             GetWindow<QuestCreatorWindow>().Show();
+            Repaint();
         }
         GUILayoutUtility.GetRect(1, 1);
         EditorGUILayout.EndHorizontal();
@@ -99,9 +100,21 @@ public class QuestSearchWindow : EditorWindow {
             EditorGUILayout.LabelField(_quests[i].ToString());
             if (GUILayout.Button("Select"))
             {
+                //abro la ventana cuando selecciono
                 _focusQuest = _quests[i];
                 GetWindow<QuestCreatorWindow>().currentQuest = (QuestLayout)_focusQuest;
                 GetWindow<QuestCreatorWindow>().Show();
+            }
+            //muevo quest a la papelera
+            if (GUILayout.Button("X", GUILayout.Width(20)))
+            {
+                if(_focusQuest == _quests[i])
+                {
+                    _focusQuest = null;
+                }
+                AssetDatabase.MoveAssetToTrash(AssetDatabase.GetAssetPath(_quests[i]));
+                _quests.RemoveAt(i);
+                Repaint();
             }
             EditorGUILayout.EndHorizontal();
         }
