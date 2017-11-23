@@ -14,11 +14,10 @@ public class QuestCreatorWindow : EditorWindow
 
     /*
      to do:
-     -una x para eliminar cosas de los array de rewards
      -arreglar nombres de campos para q este todo en un mismo lenguaje y q entre en la label
      -nombre de quest al crearlas(una campo q pida nombre en searcher) y q cambie cuando cambiamos el nombre
      -clampear todos los campos para q no halla valores no posibles
-     -mensajes de error q no aparescan todo el tiempo si el valor no es el correcto (si no se puede, no poner mensaje xq son medio molestos)
+     -mensajes de error q no aparescan todo el tiempo si el valor no es el correcto (si no se puede, vemos q hacemos lo dejamos o lo elimimamos)
      */
 
     void OnGUI()
