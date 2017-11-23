@@ -7,6 +7,7 @@ public class QuestSearchWindow : EditorWindow {
 
     ScriptableObject _focusQuest;
 
+    string _questID;
     string _searchAssetByName;
     List<ScriptableObject> _quests = new List<ScriptableObject>();
     Vector2 _scrollBar;
@@ -21,50 +22,64 @@ public class QuestSearchWindow : EditorWindow {
     {
         minSize = new Vector2(410,350);
 
+        //creador de quests vacias
+        EditorGUILayout.LabelField("Create quest", EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox("Create an empty quest", MessageType.None);
+        _questID = EditorGUILayout.TextField("Quest name", _questID);
+
+        EditorGUILayout.BeginHorizontal();
+        GUILayoutUtility.GetRect(1, 1);
+        GUILayoutUtility.GetRect(1, 1);
+        if (GUILayout.Button("Create empty quest", GUILayout.Height(20), GUILayout.Width(175)))
+        {
+            _focusQuest = ScriptableObjectCreator.CreateSO<QuestLayout>();
+            GetWindow<QuestCreatorWindow>().currentQuest = (QuestLayout)_focusQuest;
+            GetWindow<QuestCreatorWindow>().Show();
+        }
+        GUILayoutUtility.GetRect(1, 1);
+        EditorGUILayout.EndHorizontal();
+
+        //buscador por drageo de objeto
         var aux = _focusQuest;
         EditorGUILayout.LabelField("Quest search Window", EditorStyles.boldLabel);
 
         EditorGUILayout.HelpBox("Drag and drop the quest", MessageType.None);
         _focusQuest = (ScriptableObject)EditorGUILayout.ObjectField("Quest to search", _focusQuest, typeof(ScriptableObject), false);
 
-        EditorGUILayout.HelpBox("Search the quest by ID", MessageType.None);
-        QuestSearcher();
-
-        //si cambio el target cierro las ventanas de trabajo
-        if(_focusQuest != aux)
-        {
-            GetWindow<QuestCreatorWindow>().Close();
-            GetWindow<QuestLogWindow>().Close();
-
-            //deberiamos abrirlas? (para ahorrar pasos tediosos osea seleccionar quest nueva -> abrir. Si la abrimos, solo seria 1 paso))
-            GetWindow<QuestCreatorWindow>().currentQuest = (QuestLayout)_focusQuest;
-            GetWindow<QuestCreatorWindow>().Show();
-        }
-
         EditorGUILayout.BeginHorizontal();
-        if (GUILayout.Button("Open selected quest", GUILayout.Height(30), GUILayout.Width(200)))
+        GUILayoutUtility.GetRect(1, 1);
+        GUILayoutUtility.GetRect(1, 1);
+        if (GUILayout.Button("Open selected quest", GUILayout.Height(20), GUILayout.Width(175)))
         {
-            if(_focusQuest != null)
+            if (_focusQuest != null)
             {
                 GetWindow<QuestCreatorWindow>().currentQuest = (QuestLayout)_focusQuest;
                 GetWindow<QuestCreatorWindow>().Show();
             }
         }
-        
-        if(GUILayout.Button("Create empty quest", GUILayout.Height(30), GUILayout.Width(200)))
+        GUILayoutUtility.GetRect(1, 1);
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.Space();
+
+        //buscador de quest por nombre
+        EditorGUILayout.HelpBox("Search the quest by name", MessageType.None);
+        QuestSearcher();
+
+        //si cambio el target cierro las ventanas de trabajo, y abro el nuevo target
+        if(_focusQuest != aux)
         {
-            _focusQuest = ScriptableObjectCreator.CreateSO<QuestLayout>();
+            GetWindow<QuestCreatorWindow>().Close();
+            GetWindow<QuestLogWindow>().Close();
             GetWindow<QuestCreatorWindow>().currentQuest = (QuestLayout)_focusQuest;
             GetWindow<QuestCreatorWindow>().Show();
-        }
-        EditorGUILayout.EndHorizontal();
+        }        
     }
-
 
     private void QuestSearcher()
     {
         var aux = _searchAssetByName;
-        _searchAssetByName = EditorGUILayout.TextField("Quest ID", aux);
+        _searchAssetByName = EditorGUILayout.TextField("Quest name", aux);
         string[] folderToSearch = { "Assets/Quests" };
         int i;
         if (aux != _searchAssetByName)
@@ -85,21 +100,11 @@ public class QuestSearchWindow : EditorWindow {
             if (GUILayout.Button("Select"))
             {
                 _focusQuest = _quests[i];
+                GetWindow<QuestCreatorWindow>().currentQuest = (QuestLayout)_focusQuest;
+                GetWindow<QuestCreatorWindow>().Show();
             }
             EditorGUILayout.EndHorizontal();
         }
         EditorGUILayout.EndScrollView();
     }
-
-    /*
-    public void temporal()
-    {
-        if(GetWindow<QuestCreatorWindow>().currentQuest.states.Count == 0)
-        {
-            lala temp = new lala();
-            GetWindow<QuestCreatorWindow>().currentQuest.states.Add(temp);
-        }
-        GetWindow<QuestCreatorWindow>().state = 0;
-    }*/
-
 }
