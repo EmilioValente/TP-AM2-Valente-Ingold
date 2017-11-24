@@ -9,7 +9,6 @@ public static class ScriptableObjectCreator {
 	public static ScriptableObject CreateSO<T>(string name) where T : ScriptableObject
     {
         T asset = ScriptableObject.CreateInstance<T>();
-        //arreglar: ID como nombre de quest
         string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath("Assets/Quests/" + name + ".asset");
         AssetDatabase.CreateAsset(asset, assetPathAndName);
         AssetDatabase.SaveAssets();

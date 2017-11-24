@@ -12,6 +12,8 @@ public class QuestSearchWindow : EditorWindow {
     List<ScriptableObject> _quests = new List<ScriptableObject>();
     Vector2 _scrollBar;
 
+    bool _questNameTrigger = false;
+
     [MenuItem("Custom Windows/Quest Creator Window")]
     static void createWindow()
     {
@@ -32,17 +34,31 @@ public class QuestSearchWindow : EditorWindow {
         GUILayoutUtility.GetRect(1, 1);
         if (GUILayout.Button("Create empty quest", GUILayout.Height(20), GUILayout.Width(175)))
         {
-            _focusQuest = ScriptableObjectCreator.CreateSO<QuestLayout>(_questID);
-            GetWindow<QuestCreatorWindow>().currentQuest = (QuestLayout)_focusQuest;
-            GetWindow<QuestCreatorWindow>().Show();
-            Repaint();
+            if(_questID != null && _questID.Length > 0)
+            {
+                GetWindow<QuestCreatorWindow>().Close();
+                GetWindow<QuestLogWindow>().Close();
+                _questNameTrigger = false;
+                _focusQuest = ScriptableObjectCreator.CreateSO<QuestLayout>(_questID);
+                GetWindow<QuestCreatorWindow>().currentQuest = (QuestLayout)_focusQuest;
+                GetWindow<QuestCreatorWindow>().Show();
+                Repaint();
+            }
+            else
+            {
+                _questNameTrigger = true;
+            }
         }
         GUILayoutUtility.GetRect(1, 1);
         EditorGUILayout.EndHorizontal();
+        if (_questNameTrigger)
+        {
+            EditorGUILayout.HelpBox("Insert quest name/id", MessageType.Error);
+        }
 
         //buscador por drageo de objeto
         var aux = _focusQuest;
-        EditorGUILayout.LabelField("Quest search Window", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Quest search window", EditorStyles.boldLabel);
 
         EditorGUILayout.HelpBox("Drag and drop the quest", MessageType.None);
         _focusQuest = (ScriptableObject)EditorGUILayout.ObjectField("Quest to search", _focusQuest, typeof(ScriptableObject), false);
@@ -93,7 +109,7 @@ public class QuestSearchWindow : EditorWindow {
                 _quests.Add((ScriptableObject)AssetDatabase.LoadAssetAtPath(allPaths[i], typeof(ScriptableObject))); 
             }
         }
-        _scrollBar = EditorGUILayout.BeginScrollView(_scrollBar, false, true);
+        _scrollBar = GUILayout.BeginScrollView(_scrollBar, false, true);
         for (i = _quests.Count - 1; i >= 0; i--)
         {
             EditorGUILayout.BeginHorizontal();
@@ -118,6 +134,6 @@ public class QuestSearchWindow : EditorWindow {
             }
             EditorGUILayout.EndHorizontal();
         }
-        EditorGUILayout.EndScrollView();
+        GUILayout.EndScrollView();
     }
 }
