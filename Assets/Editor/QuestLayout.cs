@@ -8,8 +8,8 @@ public class QuestLayout : ScriptableObject
     public int questID;
 
     #region QuestCreator Variables
-    public int minLevel;
-    public int maxLevel;
+    public int minLevel=1;
+    public int maxLevel=1;
     public string clase;
     public List<string> listEnemiesType = new List<string>();
     public List<int> listEnemiesAmount = new List<int>();

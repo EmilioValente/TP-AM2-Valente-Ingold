@@ -11,6 +11,7 @@ public class QuestLogWindow : EditorWindow
     int RewardId=0;
     float RewardAmount=0;
     bool warningMessage = false;
+    bool warningMessageAmount = false;
 
     void OnGUI()
     {
@@ -31,7 +32,7 @@ public class QuestLogWindow : EditorWindow
         //guardo los parametros de arriba en las listas
         if (GUILayout.Button("Save rewards"))
         {
-            if (RewardName != null && RewardName.Length > 0)
+            if (RewardName != null && RewardName.Length > 0 && RewardAmount>0)
             {
                 if (!currentQuest.NameRewardList.Contains(RewardName))
                 {
@@ -39,6 +40,7 @@ public class QuestLogWindow : EditorWindow
                     currentQuest.IdRewardList.Add(RewardId);
                     currentQuest.AmountRewardList.Add(RewardAmount);
                     warningMessage = false;
+                    warningMessageAmount = false;
                     Debug.Log("guarde");
                 }else
                 {
@@ -47,15 +49,24 @@ public class QuestLogWindow : EditorWindow
                     currentQuest.AmountRewardList[questIndex] = RewardAmount;
                     Debug.Log("modifique");
                 }
-            }else
+            }
+            else if(RewardName == null || RewardName.Length == 0)
             {
                 warningMessage = true;
+            }
+            if(RewardAmount<=0)
+            {
+                warningMessageAmount = true;
             }
         }
         //Si no ingrso un nombre y apreta guardar le doy un mensaje de error
         if (warningMessage)
         {
             EditorGUILayout.HelpBox("Insert reward name", MessageType.Error);
+        }
+        if(warningMessageAmount)
+        {
+            EditorGUILayout.HelpBox("the amount can't be less than 0", MessageType.Error);
         }
 
         //Mostramos las listas

@@ -32,7 +32,7 @@ public class QuestSearchWindow : EditorWindow {
         GUILayoutUtility.GetRect(1, 1);
         if (GUILayout.Button("Create empty quest", GUILayout.Height(20), GUILayout.Width(175)))
         {
-            _focusQuest = ScriptableObjectCreator.CreateSO<QuestLayout>();
+            _focusQuest = ScriptableObjectCreator.CreateSO<QuestLayout>(_questID);
             GetWindow<QuestCreatorWindow>().currentQuest = (QuestLayout)_focusQuest;
             GetWindow<QuestCreatorWindow>().Show();
             Repaint();

@@ -7,10 +7,10 @@ public class QuestCreatorWindow : EditorWindow
 {
 
     public QuestLayout currentQuest;
-    int EnemiesAmaount;
+    int EnemiesAmount;
     string EnemiesType = "";
     bool warningMessageType = false;
-    bool warningMessageAmaount = false;
+    bool warningMessageAmount = false;
 
     /*
      to do:
@@ -28,31 +28,30 @@ public class QuestCreatorWindow : EditorWindow
         EditorGUILayout.LabelField("Currently working on: " + currentQuest.name);
         EditorGUILayout.Space();
 
-        currentQuest.clase = EditorGUILayout.TextField("clase", currentQuest.clase); // pregunto la clase que puede llevar a cabo la quest
+        currentQuest.clase = EditorGUILayout.TextField("class", currentQuest.clase); // pregunto la clase que puede llevar a cabo la quest
 
-        currentQuest.minLevel = EditorGUILayout.IntField("nivel minimo para la quest", currentQuest.minLevel); //pido nivel minimo para la mision
-        if (currentQuest.minLevel <= 1)
+        currentQuest.minLevel = EditorGUILayout.IntField("min level required", currentQuest.minLevel); //pido nivel minimo para la mision
+
+        if(currentQuest.minLevel<1 )
         {
             currentQuest.minLevel = 1;
-            EditorGUILayout.HelpBox("el nivel no puede ser menor a 1", MessageType.Info);
         }
-        else if (currentQuest.minLevel >= currentQuest.maxLevel)
+        if (currentQuest.maxLevel < 1)
         {
-            currentQuest.minLevel = currentQuest.maxLevel;
+            currentQuest.maxLevel = 1;
+        }
+        if (currentQuest.minLevel < 1)
+        { 
+            EditorGUILayout.HelpBox("minLvl can't be less than 1", MessageType.Info);
         }
 
-        currentQuest.maxLevel = EditorGUILayout.IntField("nivel maximo para la quest", currentQuest.maxLevel);//pido nivel maximo para la mision
-        if (currentQuest.maxLevel >= 100)
-        {
-            currentQuest.maxLevel = 100;
-            EditorGUILayout.HelpBox("el nivel no puede pasarse de 100", MessageType.Info);
-        }
+        currentQuest.maxLevel = EditorGUILayout.IntField("maxLevel ", currentQuest.maxLevel);//pido nivel maximo para la mision
 
-        if (currentQuest.maxLevel - currentQuest.minLevel > 25)
+         if (currentQuest.minLevel > currentQuest.maxLevel && currentQuest.maxLevel != 1)
         {
-            EditorGUILayout.HelpBox("no se recomienda que el rango sea muy extenso", MessageType.None);
+            EditorGUILayout.HelpBox("minLvl can't be higher than maxLvl", MessageType.Error);
         }
-
+        
         //Creo un boton que me abre una ventana nueva donde se puede editar el quest log
         if (GUILayout.Button("Quest Log"))
         {
@@ -67,51 +66,55 @@ public class QuestCreatorWindow : EditorWindow
         //enemigos
         GUILayout.Label("Enemies", EditorStyles.boldLabel);
         EnemiesType = EditorGUILayout.TextField("Enemie Type", EnemiesType);
-        EnemiesAmaount = EditorGUILayout.IntField("Enemies amaunt", EnemiesAmaount);
+        EnemiesAmount = EditorGUILayout.IntField("Enemies amount", EnemiesAmount);
         if (GUILayout.Button("add enemies"))
         {
-            if (EnemiesType != null && EnemiesType.Length>0)
+            if (EnemiesType != null && EnemiesType.Length>0 && EnemiesAmount > 0)
             {
                 warningMessageType = false;
-                warningMessageAmaount = false;
+                warningMessageAmount = false;
                 if (!currentQuest.listEnemiesType.Contains(EnemiesType))
                 {
                     currentQuest.listEnemiesType.Add(EnemiesType);
-                    currentQuest.listEnemiesAmount.Add(EnemiesAmaount);
+                    currentQuest.listEnemiesAmount.Add(EnemiesAmount);
                     warningMessageType = false;
-                    warningMessageAmaount = false;
+                    warningMessageAmount = false;
                 }
                 else
                 {
                     var enemiesIndex = currentQuest.listEnemiesType.IndexOf(EnemiesType);
-                    currentQuest.listEnemiesAmount[enemiesIndex] = EnemiesAmaount;
+                    currentQuest.listEnemiesAmount[enemiesIndex] = EnemiesAmount;
                     warningMessageType = false;
-                    warningMessageAmaount = false;
+                    warningMessageAmount = false;
                 }
             }
             if (EnemiesType == null || EnemiesType == "")
             {
                 warningMessageType = true;
             }
-            if (EnemiesAmaount == 0)
+            if (EnemiesAmount <= 0)
             {
-                warningMessageAmaount = true;
-                Debug.Log("warning amaount" + warningMessageAmaount + " warning type" + warningMessageType + " enemiestype" + EnemiesType + "     enemie amaount" + EnemiesAmaount);
+                warningMessageAmount = true;
+               
             }
             EnemiesType = "";
-            EnemiesAmaount = 0;
-            Repaint();
+            EnemiesAmount = 0;
+           
 
         }
-        if (warningMessageAmaount)
+        if (warningMessageAmount)
         {
-            EditorGUILayout.HelpBox("Insert a valid enemies amaount", MessageType.Error);
+            EditorGUILayout.HelpBox("Insert a valid enemies amount", MessageType.Error);
         }
         if (warningMessageType)
         {
             EditorGUILayout.HelpBox("Insert enemies type", MessageType.Error);
         }
         GUILayout.Label("Enemies saved");
+        if (currentQuest.listEnemiesType.Count == 0)
+        {
+            EditorGUILayout.HelpBox("No enemies saved", MessageType.None);
+        }
         for (int i = 0; i < currentQuest.listEnemiesType.Count; i++)
         {
             EditorGUILayout.BeginHorizontal();
